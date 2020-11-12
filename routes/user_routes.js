@@ -1,26 +1,35 @@
 module.exports = app => {
   const users = require("../controllers/user_controller.js");
 
-   app.post("/user/login", users.login);
-/*
-  // Create a new Customer
-  app.post("/user/signup", users.create);
+// login user
+app.post("/user/login", users.login);
 
-  // Retrieve all Customers
-  app.get("/users", users.findAll);
+// create a new user
+app.post("/user/signup", users.signup);
 
-  // Retrieve a single Customer with customerId
-  // app.get("/user/:userId", users.findOne);
+// forgot password
+app.post("/user/forgot", users.forgot);
 
-  app.post("/user/login", users.create);
+// confirm user's email
+app.get("/user/confirm/:token", users.confirm);
 
-  // Update a Customer with customerId
-  app.put("/user/:userId", users.update);
+// TEST: route protected with token
+app.get("/test-protected", users.authenticateToken, users.testProtected);
+};
+/* 
+//Retrieve all users
+app.get("/users", users.findAll);
 
-  // Delete a Customer with customerId
+// Retrieve a single user with userId
+// app.get("/user/:userId", users.findOne);
+
+// Update a user with userId
+app.put("/user/:userId", users.update);
+
+// Delete a user with userId
   app.delete("/user/:userId", users.delete);
 
   // Create a new Customer
   app.delete("/users", users.deleteAll);
 */
-};
+
