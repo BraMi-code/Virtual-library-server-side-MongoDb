@@ -16,20 +16,3 @@ app.get("/user/confirm/:token", users.confirm);
 // TEST: route protected with token
 app.get("/test-protected", users.authenticateToken, users.testProtected);
 };
-/* 
-//Retrieve all users
-app.get("/users", users.findAll);
-
-// Retrieve a single user with userId
-// app.get("/user/:userId", users.findOne);
-
-// Update a user with userId
-app.put("/user/:userId", users.update);
-
-// Delete a user with userId
-  app.delete("/user/:userId", users.delete);
-
-  // Create a new Customer
-  app.delete("/users", users.deleteAll);
-*/
-

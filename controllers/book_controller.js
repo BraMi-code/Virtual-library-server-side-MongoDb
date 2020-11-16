@@ -106,15 +106,3 @@ exports.delete = (req, res) => {
     } else res.send({ message: `Book was deleted successfully!` });
   });
 };
-
-// Delete all Customers from the database.
-exports.deleteAll = (req, res) => {
-  Book.removeAll((err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while removing all books."
-      });
-    else res.send({ message: `All Books were deleted successfully!` });
-  });
-};

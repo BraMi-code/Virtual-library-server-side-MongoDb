@@ -1,4 +1,4 @@
-const mysql = require("mysql");
+/*const mysql = require("mysql");
 const dbConfig = require("/home/brami/mybooks/config/db.config.js");
 const md5 = require('md5')
 
@@ -18,3 +18,4 @@ connection.connect(error => {
 });
 
 module.exports = connection;
+*/

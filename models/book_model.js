@@ -1,4 +1,4 @@
-const sql = require("../database.js");
+const sql = require("./database.js");
 
 // constructor
 const Book = function(book) {
@@ -93,19 +93,6 @@ Book.remove = (isbn, result) => {
     }
 
     console.log("deleted book with isbn: ", isbn);
-    result(null, res);
-  });
-};
-
-Book.removeAll = result => {
-  sql.query("DELETE FROM library", (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(null, err);
-      return;
-    }
-
-    console.log(`deleted ${res.affectedRows} library`);
     result(null, res);
   });
 };

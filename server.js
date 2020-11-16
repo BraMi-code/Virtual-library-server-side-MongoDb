@@ -1,8 +1,6 @@
 require('dotenv-safe').config();
 const express = require('express');
 const cors = require('cors');
-// const connection = require("/home/brami/mybooks/database.js");
-// const md5 = require("md5")
 
 const app = express();
 const port = process.env.APP_PORT;
