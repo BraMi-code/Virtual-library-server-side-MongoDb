@@ -49,7 +49,7 @@ exports.findOne = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found Book with id ${req.params.bookId}.`
+          message:  "Not found Book with id " + req.params.bookId 
         });
       } else {
         res.status(500).send({
@@ -59,6 +59,7 @@ exports.findOne = (req, res) => {
     } else res.send(data);
   });
 };
+
 
 // Update a Book identified by the bookId in the request
 exports.update = (req, res) => {

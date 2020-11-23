@@ -39,6 +39,7 @@ Book.findById = (bookId, result) => {
 
     // not found Book with the id
     result({ kind: "not_found" }, null);
+    console.log("Book not found");
   });
 };
 
