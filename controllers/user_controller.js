@@ -4,7 +4,7 @@ const User = require("../models/user_model.js"),
 
 exports.authenticateToken = (req, res, next) => {
   // Gather the jwt token from the request header
-  const authHeader = req.headers['authorzation'];
+  const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1] || null;
   if (token === null) return res.status(401).json({
     message: 'Unauthorized access.'}); // if there isn't any token

@@ -1,4 +1,5 @@
 const Book = require("../models/book_model.js");
+const fs = require('fs');
 
 // Create and Save a new Book
 exports.create = (req, res) => {
@@ -16,7 +17,8 @@ exports.create = (req, res) => {
     author: req.body.author,
     publish_date: req.body.publish_date,
     publisher: req.body.publisher,
-    numOfPages: req.body.numOfPages
+    numOfPages: req.body.numOfPages,
+    book_img: req.file.filename
   });
 
   // Save Book in the database
@@ -46,9 +48,15 @@ exports.findAll = (req, res) => {
 // Find a single Book with a bookId
 exports.findOne = (req, res) => {
   Book.findById(req.params.bookId, (err, data) => {
+    if (!req.params.bookId) {
+      res.status(400).send({
+        message: "Content can not be empty!"
+      });
+    }
+    
     if (err) {
       if (err.kind === "not_found") {
-        res.status(404).send({
+        res.status(403).send({
           message:  "Not found Book with id " + req.params.bookId 
         });
       } else {
@@ -69,9 +77,8 @@ exports.update = (req, res) => {
       message: "Content can not be empty!"
     });
   }
-
   console.log(req.body);
-
+  
   Book.updateById(
     req.params.bookId,
     new Book(req.body),
@@ -93,6 +100,23 @@ exports.update = (req, res) => {
 
 // Delete a Book with the specified bookId in the request
 exports.delete = (req, res) => {
+ 
+  Book.findImg(req.params.bookId, (err, data) => {
+    var imgPath = process.env.PWD + '/uploads/' + data;
+    if (err) {
+      console.log("Some error occured");
+    } else {
+      console.log(imgPath);
+      fs.unlink(imgPath, (err) => {
+      if (err) {
+      console.error(err)
+      return
+      }
+    })
+    console.log(data + "file removed")
+    }
+  });
+
   Book.remove(req.params.bookId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {

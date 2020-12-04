@@ -8,6 +8,7 @@ const Book = function(book) {
   this.publish_date = book.publish_date;
   this.publisher = book.publisher;
   this.numOfPages = book.numOfPages;
+  this.book_img = book.book_img
 };
 
 Book.create = (newBook, result) => {
@@ -29,8 +30,7 @@ Book.findById = (bookId, result) => {
       console.log("error: ", err);
       result(err, null);
       return;
-    }
-
+    }    
     if (res.length) {
       console.log("found book: ", res[0]);
       result(null, res[0]);
@@ -58,8 +58,8 @@ Book.getAll = result => {
 
 Book.updateById = (isbn, book, result) => {
   sql.query(
-    "UPDATE library SET isbn = ?, title = ?, author = ?, publish_date = ?, publisher = ?, numOfPages = ? WHERE isbn = ?",
-    [book.isbn, book.title, book.author, book.publish_date, book.publisher, book.numOfPages, isbn],
+    "UPDATE library SET isbn = ?, title = ?, author = ?, publish_date = ?, publisher = ?, numOfPages = ?, book_img WHERE isbn = ?",
+    [book.isbn, book.title, book.author, book.publish_date, book.publisher, book.numOfPages, book.book_img, isbn],
     (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -78,6 +78,18 @@ Book.updateById = (isbn, book, result) => {
     }
   );
 };
+
+Book.findImg = (bookId, result) => {
+  var reques = `SELECT book_img FROM library WHERE isbn = ${bookId}`;
+  sql.query(reques, bookId, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+    result(null, res[0].book_img);
+  })
+}
 
 Book.remove = (isbn, result) => {
   sql.query("DELETE FROM library WHERE isbn = ?", isbn, (err, res) => {
