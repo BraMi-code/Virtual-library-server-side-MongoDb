@@ -27,5 +27,5 @@ app.get("/book/:bookId", book.findOne);
 app.delete("/book/:bookId", book.delete);
 
 // Edit a Book
-app.put("/book/:bookId", book.update);
+app.put("/book/:bookId",  upload.single('book_img'), book.update);
 }

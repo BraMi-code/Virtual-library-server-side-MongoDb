@@ -79,10 +79,27 @@ exports.update = (req, res) => {
   }
   console.log(req.body);
   
+  Book.findImg(req.params.bookId, (err, data) => {
+    var imgPath = process.env.PWD + '/uploads/' + data;
+    if (err) {
+      console.log("Some error occured");
+    } else {
+      console.log(imgPath);
+      fs.unlink(imgPath, (err) => {
+      if (err) {
+      console.error(err)
+      return
+      }
+    })
+    console.log(data + "file removed")
+    }
+  });
+
   Book.updateById(
     req.params.bookId,
-    new Book(req.body),
+    new Book(req.body, req.file.filename),
     (err, data) => {
+      console.log("req.file je: " + req.file.filename);
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
@@ -93,7 +110,8 @@ exports.update = (req, res) => {
             message: "Error updating Book with id " + req.params.bookId
           });
         }
-      } else res.send(data);
+      } else console.log(data);
+      res.send(data);
     }
   );
 };

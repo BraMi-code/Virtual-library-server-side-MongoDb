@@ -58,7 +58,7 @@ Book.getAll = result => {
 
 Book.updateById = (isbn, book, result) => {
   sql.query(
-    "UPDATE library SET isbn = ?, title = ?, author = ?, publish_date = ?, publisher = ?, numOfPages = ?, book_img WHERE isbn = ?",
+    "UPDATE library SET isbn = ?, title = ?, author = ?, publish_date = ?, publisher = ?, numOfPages = ?, book_img = ? WHERE isbn = ?",
     [book.isbn, book.title, book.author, book.publish_date, book.publisher, book.numOfPages, book.book_img, isbn],
     (err, res) => {
       if (err) {
@@ -68,7 +68,7 @@ Book.updateById = (isbn, book, result) => {
       }
 
       if (res.affectedRows == 0) {
-        // not found Customer with the id
+        // not found Book with the id
         result({ kind: "not_found" }, null);
         return;
       }
