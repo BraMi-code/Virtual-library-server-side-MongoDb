@@ -10,7 +10,7 @@ exports.create = (req, res) => {
     });
   }
 
-  // Create a Book
+  // Create Book
   const book = new Book({
     isbn: req.body.isbn,
     title: req.body.title,
@@ -80,6 +80,7 @@ exports.update = (req, res) => {
 
   console.log(req.body);
 
+  // Update Book
   const book = new Book({
     isbn: req.body.isbn,
     title: req.body.title,
@@ -90,20 +91,19 @@ exports.update = (req, res) => {
     book_img: req.file.filename
   });
 
+  // Find path and remove File from folder
   Book.findImg(req.params.bookId, (err, data) => {
     var imgPath = process.env.PWD + '/uploads/' + data;
-    console.log(imgPath);
+    console.log("Image Path: " + imgPath);
     if (err) {
       console.log("Some error occured");
     } else {
-      console.log(imgPath);
       fs.unlink(imgPath, (err) => {
-      if (err) {
-      console.error(err)
-      return
-      }
-    })
-    console.log(data + "file removed")
+        if (err) {
+        console.error(err)
+        return
+        }
+      })
     }
   });
 
@@ -121,16 +121,14 @@ exports.update = (req, res) => {
             message: "Error updating Book with id " + req.params.bookId
           });
         }
-      } else  { console.log(data);
-        res.send(data);
-      }
+      } else res.send(data);
     }
   );
 };
 
 // Delete a Book with the specified bookId in the request
 exports.delete = (req, res) => {
-
+  // Find path and remove File from folder
   Book.findImg(req.params.bookId, (err, data) => {
     var imgPath = process.env.PWD + '/uploads/' + data;
     if (err) {
@@ -143,7 +141,7 @@ exports.delete = (req, res) => {
       return
       }
     })
-    console.log(data + "file removed")
+    console.log(data + " file removed")
     }
   });
 
