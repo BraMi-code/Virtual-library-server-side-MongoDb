@@ -77,10 +77,22 @@ exports.update = (req, res) => {
       message: "Content can not be empty!"
     });
   }
+
   console.log(req.body);
-  
+
+  const book = new Book({
+    isbn: req.body.isbn,
+    title: req.body.title,
+    author: req.body.author,
+    publish_date: req.body.publish_date,
+    publisher: req.body.publisher,
+    numOfPages: req.body.numOfPages,
+    book_img: req.file.filename
+  });
+
   Book.findImg(req.params.bookId, (err, data) => {
     var imgPath = process.env.PWD + '/uploads/' + data;
+    console.log(imgPath);
     if (err) {
       console.log("Some error occured");
     } else {
@@ -97,9 +109,8 @@ exports.update = (req, res) => {
 
   Book.updateById(
     req.params.bookId,
-    new Book(req.body, req.file.filename),
+    book,
     (err, data) => {
-      console.log("req.file je: " + req.file.filename);
       if (err) {
         if (err.kind === "not_found") {
           res.status(404).send({
@@ -110,15 +121,16 @@ exports.update = (req, res) => {
             message: "Error updating Book with id " + req.params.bookId
           });
         }
-      } else console.log(data);
-      res.send(data);
+      } else  { console.log(data);
+        res.send(data);
+      }
     }
   );
 };
 
 // Delete a Book with the specified bookId in the request
 exports.delete = (req, res) => {
- 
+
   Book.findImg(req.params.bookId, (err, data) => {
     var imgPath = process.env.PWD + '/uploads/' + data;
     if (err) {
