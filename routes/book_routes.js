@@ -1,5 +1,6 @@
 module.exports = app => {
   const book = require("../controllers/book_controller.js");
+  const users = require("../controllers/user_controller.js");
   const multer  = require('multer');
   const path = require('path');
 
@@ -13,9 +14,10 @@ module.exports = app => {
   })
   
   const upload = multer({ storage: storage });
+  
 // Create a Book
 //app.post("/book", book.create);
-app.post("/book", upload.single('book_img'), book.create);
+app.post("/book", [users.authenticateToken, upload.single('book_img')], book.create);
 
 // Get All Books
 app.get("/books", book.findAll);
@@ -24,8 +26,8 @@ app.get("/books", book.findAll);
 app.get("/book/:bookId", book.findOne);
 
 // Delete a Book
-app.delete("/book/:bookId", book.delete);
+app.delete("/book/:bookId", users.authenticateToken, book.delete);
 
 // Edit a Book
-app.put("/book/:bookId",  upload.single('book_img'), book.update);
+app.put("/book/:bookId",  [users.authenticateToken, upload.single('book_img')], book.update);
 }

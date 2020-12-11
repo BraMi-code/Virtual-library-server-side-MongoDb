@@ -1,5 +1,7 @@
-const Book = require("../models/book_model.js");
-const fs = require('fs');
+const Book = require("../models/book_model.js"),
+        fs = require('fs');
+
+const user = require("../models/user_model.js");
 
 // Create and Save a new Book
 exports.create = (req, res) => {
